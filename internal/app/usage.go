@@ -6,13 +6,14 @@ import (
 )
 
 func printUsage(out io.Writer) {
-	if _, err := fmt.Fprint(out, `todoist - Todoist tasks CLI
+	if _, err := fmt.Fprint(out, `todoist - Todoist CLI
 
 USAGE:
   todoist [global flags] <command> [args]
 
 COMMANDS:
   task    Manage tasks
+  project Manage projects
   auth    Manage auth token
   config  Manage config
 
@@ -31,7 +32,7 @@ GLOBAL FLAGS:
 
 NOTES:
   Task identifiers accept exact task titles unless --id is set.
-  Project references use exact project titles.
+  Project identifiers accept exact project titles unless --id is set.
 `); err != nil {
 		return
 	}
@@ -64,6 +65,23 @@ USAGE:
   todoist auth login
   todoist auth logout
   todoist auth status
+`); err != nil {
+		return
+	}
+}
+
+func printProjectUsage(out io.Writer) {
+	if _, err := fmt.Fprint(out, `todoist project - project commands
+
+USAGE:
+  todoist project list
+  todoist project get <project>
+  todoist project add <name>
+  todoist project update <project>
+  todoist project delete <project>
+
+NOTES:
+  <project> accepts exact project title unless --id is set.
 `); err != nil {
 		return
 	}

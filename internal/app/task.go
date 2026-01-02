@@ -2,11 +2,9 @@ package app
 
 import (
 	"context"
-	"errors"
 	"flag"
 	"fmt"
 	"io"
-	"os"
 	"strconv"
 	"strings"
 
@@ -625,7 +623,7 @@ func taskAction(ctx context.Context, state *state, action string, args []string,
 	}
 
 	if destructive {
-		if err := confirmDestructive(state, identifier, force); err != nil {
+		if err := confirmDelete(state, "task", identifier, force); err != nil {
 			writeLine(state.Err, "error:", err)
 			return "", nil, 2
 		}
@@ -647,27 +645,6 @@ func taskAction(ctx context.Context, state *state, action string, args []string,
 		return "", nil, 1
 	}
 	return id, raw, 0
-}
-
-func confirmDestructive(state *state, identifier string, forced bool) error {
-	if forced {
-		return nil
-	}
-	if state.NoInput || !isTTY(os.Stdin) {
-		return errors.New("confirmation required (use --force)")
-	}
-	if _, err := fmt.Fprintf(state.Err, "Delete task '%s'? [y/N]: ", identifier); err != nil {
-		return err
-	}
-	var response string
-	if _, err := fmt.Fscanln(os.Stdin, &response); err != nil {
-		return err
-	}
-	response = strings.ToLower(strings.TrimSpace(response))
-	if response != "y" && response != "yes" {
-		return errors.New("aborted")
-	}
-	return nil
 }
 
 func resolveTask(ctx context.Context, client *todoist.Client, identifier string, forceID bool) (todoist.Task, error) {

@@ -3,13 +3,14 @@ A cli for interacting with todoist
 
 ## Usage
 ```text
-todoist - Todoist tasks CLI
+todoist - Todoist CLI
 
 USAGE:
   todoist [global flags] <command> [args]
 
 COMMANDS:
   task    Manage tasks
+  project Manage projects
   auth    Manage auth token
   config  Manage config
 
@@ -28,6 +29,5 @@ GLOBAL FLAGS:
 
 NOTES:
   Task identifiers accept exact task titles unless --id is set.
-  Project references use exact project titles.
+  Project identifiers accept exact project titles unless --id is set.
 ```
-

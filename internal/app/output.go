@@ -44,6 +44,32 @@ func printTasks(out io.Writer, tasks []todoist.Task, mode outputMode) error {
 	}
 }
 
+func printProjects(out io.Writer, projects []todoist.Project, mode outputMode) error {
+	switch mode {
+	case modeJSON:
+		payload := map[string]any{"results": projects}
+		return printJSON(out, payload)
+	case modePlain:
+		for _, project := range projects {
+			if _, err := fmt.Fprintf(out, "%s\t%s\n", project.ID, project.Name); err != nil {
+				return err
+			}
+		}
+		return nil
+	default:
+		w := tabwriter.NewWriter(out, 0, 4, 2, ' ', 0)
+		if _, err := fmt.Fprintln(w, "ID\tNAME"); err != nil {
+			return err
+		}
+		for _, project := range projects {
+			if _, err := fmt.Fprintf(w, "%s\t%s\n", project.ID, project.Name); err != nil {
+				return err
+			}
+		}
+		return w.Flush()
+	}
+}
+
 func printTask(out io.Writer, task todoist.Task, mode outputMode) error {
 	switch mode {
 	case modeJSON:
@@ -53,6 +79,19 @@ func printTask(out io.Writer, task todoist.Task, mode outputMode) error {
 		return err
 	default:
 		_, err := fmt.Fprintf(out, "ID: %s\nContent: %s\nDue: %s\n", task.ID, task.Content, dueSummary(task))
+		return err
+	}
+}
+
+func printProject(out io.Writer, project todoist.Project, mode outputMode) error {
+	switch mode {
+	case modeJSON:
+		return printJSON(out, project)
+	case modePlain:
+		_, err := fmt.Fprintf(out, "%s\t%s\n", project.ID, project.Name)
+		return err
+	default:
+		_, err := fmt.Fprintf(out, "ID: %s\nName: %s\n", project.ID, project.Name)
 		return err
 	}
 }

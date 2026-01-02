@@ -89,6 +89,8 @@ func Run(args []string) int {
 	switch rest[0] {
 	case "task":
 		return runTask(ctx, state, rest[1:])
+	case "project":
+		return runProject(ctx, state, rest[1:])
 	case "auth":
 		return runAuth(ctx, state, rest[1:])
 	case "config":
