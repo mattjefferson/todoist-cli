@@ -161,6 +161,21 @@ Examples:
 - `todoist comment add "LGTM" --task-id 123 --notify 456`
 - `todoist comment add "See file" --task "Inbox" --file ./spec.pdf`
 
+### activity
+Fetch activity logs.
+
+Subcommands:
+- `list`
+  - Flags: `--limit`, `--cursor`, `--object-type`, `--object-id`, `--parent-project-id`,
+    `--parent-item-id`, `--include-parent-object`, `--include-child-objects`,
+    `--initiator-id`, `--initiator-id-null`, `--event-type`, `--object-event-types`,
+    `--annotate-notes`, `--annotate-parents`, `--all`
+
+Examples:
+- `todoist activity list`
+- `todoist activity list --object-type item --event-type completed`
+- `todoist activity list --object-id 123 --include-parent-object`
+
 ### upload
 Manage uploads for comment attachments.
 

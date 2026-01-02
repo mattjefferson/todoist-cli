@@ -44,6 +44,44 @@ func printTasks(out io.Writer, tasks []todoist.Task, mode outputMode) error {
 	}
 }
 
+func printActivities(out io.Writer, activities []todoist.Activity, mode outputMode) error {
+	switch mode {
+	case modeJSON:
+		payload := map[string]any{"results": activities}
+		return printJSON(out, payload)
+	case modePlain:
+		for _, activity := range activities {
+			if _, err := fmt.Fprintf(out, "%s\t%s\t%s\t%s\t%s\n",
+				activity.ID,
+				activity.EventType,
+				activity.ObjectType,
+				activity.ObjectID,
+				activity.EventDate,
+			); err != nil {
+				return err
+			}
+		}
+		return nil
+	default:
+		w := tabwriter.NewWriter(out, 0, 4, 2, ' ', 0)
+		if _, err := fmt.Fprintln(w, "ID\tEVENT\tOBJECT\tOBJECT_ID\tDATE"); err != nil {
+			return err
+		}
+		for _, activity := range activities {
+			if _, err := fmt.Fprintf(w, "%s\t%s\t%s\t%s\t%s\n",
+				activity.ID,
+				activity.EventType,
+				activity.ObjectType,
+				activity.ObjectID,
+				activity.EventDate,
+			); err != nil {
+				return err
+			}
+		}
+		return w.Flush()
+	}
+}
+
 func printProjects(out io.Writer, projects []todoist.Project, mode outputMode) error {
 	switch mode {
 	case modeJSON:

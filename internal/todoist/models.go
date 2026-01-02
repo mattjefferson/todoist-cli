@@ -83,6 +83,19 @@ type Comment struct {
 	Reactions      map[string][]string `json:"reactions,omitempty"`
 }
 
+// Activity represents an activity log entry.
+type Activity struct {
+	ID              string         `json:"id"`
+	EventType       string         `json:"event_type"`
+	ObjectType      string         `json:"object_type"`
+	ObjectID        string         `json:"object_id"`
+	ParentProjectID string         `json:"parent_project_id,omitempty"`
+	ParentItemID    string         `json:"parent_item_id,omitempty"`
+	InitiatorID     string         `json:"initiator_id,omitempty"`
+	EventDate       string         `json:"event_date,omitempty"`
+	ExtraData       map[string]any `json:"extra_data,omitempty"`
+}
+
 // FileAttachment represents a comment file attachment.
 type FileAttachment struct {
 	FileName     string `json:"file_name,omitempty"`

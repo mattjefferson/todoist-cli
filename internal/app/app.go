@@ -95,6 +95,8 @@ func Run(args []string) int {
 		return runComment(ctx, state, rest[1:])
 	case "label":
 		return runLabel(ctx, state, rest[1:])
+	case "activity":
+		return runActivity(ctx, state, rest[1:])
 	case "upload":
 		return runUpload(ctx, state, rest[1:])
 	case "section":

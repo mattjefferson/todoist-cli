@@ -16,6 +16,7 @@ COMMANDS:
   task    Manage tasks
   project Manage projects
   comment Manage comments
+  activity Manage activity log
   label   Manage labels
   upload  Manage uploads
   section Manage sections
@@ -194,6 +195,38 @@ EXAMPLES:
   todoist comment list --task "Write docs"
   todoist comment add "LGTM" --task-id 123 --notify 456
   todoist comment add "See file" --task "Inbox" --file ./spec.pdf
+`); err != nil {
+		return
+	}
+}
+
+func printActivityUsage(out io.Writer) {
+	if _, err := fmt.Fprint(out, `todoist activity - activity log commands
+
+USAGE:
+  todoist activity list
+
+FLAGS (list):
+  --limit <n>              Max events per page (1-100)
+  --cursor <cursor>        Pagination cursor
+  --object-type <type>     Object type filter
+  --object-id <id>         Object ID filter
+  --parent-project-id <id> Parent project ID filter
+  --parent-item-id <id>    Parent item ID filter
+  --include-parent-object  Include parent object data
+  --include-child-objects  Include child objects data
+  --initiator-id <id>      Initiator user ID
+  --initiator-id-null      Only events without an initiator
+  --event-type <type>      Event type filter
+  --object-event-types <a,b>  Object event types (comma-separated)
+  --annotate-notes         Include note info in extra_data
+  --annotate-parents       Include parent info in extra_data
+  --all                    Fetch all pages
+
+EXAMPLES:
+  todoist activity list
+  todoist activity list --object-type item --event-type completed
+  todoist activity list --object-id 123 --include-parent-object
 `); err != nil {
 		return
 	}
