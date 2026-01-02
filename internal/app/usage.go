@@ -9,6 +9,7 @@ func printUsage(out io.Writer) {
 	if _, err := fmt.Fprint(out, `todoist - Todoist CLI
 
 USAGE:
+  todoist [global flags] <task-command> [args]
   todoist [global flags] <command> [args]
 
 COMMANDS:
@@ -46,6 +47,7 @@ AUTH:
   todoist config path           Print config file path
 
 NOTES:
+  Task commands can be used without the "task" prefix (e.g. todoist list, todoist add).
   Task identifiers accept exact task titles unless --id is set.
   Project identifiers accept exact project titles unless --id is set.
   Label identifiers accept exact label names unless --id is set.
@@ -60,14 +62,14 @@ func printTaskUsage(out io.Writer) {
 	if _, err := fmt.Fprint(out, `todoist task - task commands
 
 USAGE:
-  todoist task list [project_title]
-  todoist task get <task>
-  todoist task add <content>
-  todoist task update <task>
-  todoist task close <task>
-  todoist task reopen <task>
-  todoist task delete <task>
-  todoist task quick <text>
+  todoist list [project_title]
+  todoist get <task>
+  todoist add <content>
+  todoist update <task>
+  todoist close <task>
+  todoist reopen <task>
+  todoist delete <task>
+  todoist quick <text>
 
 FLAGS (list):
   --project <title>        Project title (exact match)
@@ -121,13 +123,14 @@ FLAGS (quick):
   --meta                   Include metadata
 
 EXAMPLES:
-  todoist task list
-  todoist task list "Inbox" --all
-  todoist task add "Write docs" --project "Docs"
-  todoist task update "Write docs" --content "Write help" --priority 2
-  todoist task close "Write docs"
+  todoist list
+  todoist list "Inbox" --all
+  todoist add "Write docs" --project "Docs"
+  todoist update "Write docs" --content "Write help" --priority 2
+  todoist close "Write docs"
 
 NOTES:
+  Task commands can also be called with the "task" prefix.
   <task> accepts exact task title unless --id is set.
 `); err != nil {
 		return

@@ -109,6 +109,9 @@ func Run(args []string) int {
 		printUsage(out)
 		return 0
 	default:
+		if isTaskSubcommand(rest[0]) {
+			return runTask(ctx, state, rest)
+		}
 		if _, writeErr := fmt.Fprintln(errOut, "error: unknown command:", rest[0]); writeErr != nil {
 			return 2
 		}
@@ -213,6 +216,15 @@ func parseOutputMode(json, plain bool) (outputMode, error) {
 
 func joinArgs(args []string) string {
 	return strings.TrimSpace(strings.Join(args, " "))
+}
+
+func isTaskSubcommand(arg string) bool {
+	switch arg {
+	case "list", "get", "add", "update", "close", "reopen", "delete", "quick":
+		return true
+	default:
+		return false
+	}
 }
 
 func isTTY(f *os.File) bool {

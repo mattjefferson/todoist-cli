@@ -4,7 +4,7 @@ CLI for Todoist.
 ## Quick start
 - `todoist auth login`
 - `todoist auth status`
-- `todoist task list`
+- `todoist list`
 
 ## Auth
 - `todoist auth login` prompts for token (TTY required).
@@ -50,6 +50,8 @@ Example:
 ### task
 Manage tasks.
 
+Task commands can be called without the `task` prefix (for example, `todoist list`).
+
 Subcommands:
 - `list [project_title]`
   - Flags: `--project`, `--label`, `--limit`, `--cursor`, `--all`
@@ -73,11 +75,11 @@ Subcommands:
   - Flags: `--note`, `--reminder`, `--auto-reminder`, `--meta`
 
 Examples:
-- `todoist task list`
-- `todoist task list "Inbox" --all`
-- `todoist task add "Write docs" --project "Docs" --priority 2`
-- `todoist task update "Write docs" --content "Write help"`
-- `todoist task delete "Write docs" --force`
+- `todoist list`
+- `todoist list "Inbox" --all`
+- `todoist add "Write docs" --project "Docs" --priority 2`
+- `todoist update "Write docs" --content "Write help"`
+- `todoist delete "Write docs" --force`
 
 ### project
 Manage projects.
