@@ -161,6 +161,19 @@ func printLabel(out io.Writer, label todoist.Label, mode outputMode) error {
 	}
 }
 
+func printUpload(out io.Writer, upload todoist.Upload, mode outputMode) error {
+	switch mode {
+	case modeJSON:
+		return printJSON(out, upload)
+	case modePlain:
+		_, err := fmt.Fprintf(out, "%s\t%s\t%s\t%d\t%s\n", upload.FileURL, upload.FileName, upload.FileType, upload.FileSize, upload.UploadState)
+		return err
+	default:
+		_, err := fmt.Fprintf(out, "File URL: %s\nFile Name: %s\nFile Type: %s\nFile Size: %d\nUpload State: %s\n", upload.FileURL, upload.FileName, upload.FileType, upload.FileSize, upload.UploadState)
+		return err
+	}
+}
+
 func printComment(out io.Writer, comment todoist.Comment, mode outputMode) error {
 	switch mode {
 	case modeJSON:

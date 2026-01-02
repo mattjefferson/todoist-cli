@@ -189,6 +189,8 @@ func runCommentAdd(ctx context.Context, state *state, args []string) int {
 	var projectName string
 	var projectID string
 	var notify int64Slice
+	var uploadPath string
+	var uploadName string
 	fs.BoolVar(&help, "help", false, "Show help")
 	fs.BoolVar(&help, "h", false, "Show help")
 	fs.StringVar(&taskTitle, "task", "", "Task title (exact match)")
@@ -196,6 +198,8 @@ func runCommentAdd(ctx context.Context, state *state, args []string) int {
 	fs.StringVar(&projectName, "project", "", "Project title (exact match)")
 	fs.StringVar(&projectID, "project-id", "", "Project ID")
 	fs.Var(&notify, "notify", "UID to notify (repeatable)")
+	fs.StringVar(&uploadPath, "file", "", "Upload file attachment")
+	fs.StringVar(&uploadName, "file-name", "", "Override upload file name")
 	if err := fs.Parse(args); err != nil {
 		writeLine(state.Err, "error:", err)
 		return 2
@@ -207,6 +211,10 @@ func runCommentAdd(ctx context.Context, state *state, args []string) int {
 	content := strings.TrimSpace(strings.Join(fs.Args(), " "))
 	if content == "" {
 		writeLine(state.Err, "error: content required")
+		return 2
+	}
+	if uploadName != "" && uploadPath == "" {
+		writeLine(state.Err, "error: --file-name requires --file")
 		return 2
 	}
 
@@ -225,6 +233,18 @@ func runCommentAdd(ctx context.Context, state *state, args []string) int {
 	body := map[string]any{
 		key:       value,
 		"content": content,
+	}
+	if uploadPath != "" {
+		uploadProjectID := ""
+		if key == "project_id" {
+			uploadProjectID = value
+		}
+		upload, _, err := client.UploadFile(ctx, uploadPath, uploadName, uploadProjectID)
+		if err != nil {
+			writeLine(state.Err, "error:", err)
+			return 1
+		}
+		body["attachment"] = fileAttachmentFromUpload(upload)
 	}
 	if len(notify) > 0 {
 		body["uids_to_notify"] = notify
@@ -392,4 +412,18 @@ func resolveCommentScope(ctx context.Context, client *todoist.Client, taskTitle,
 		return "project_id", projectIDValue, nil
 	}
 	return "", "", fmt.Errorf("task or project required")
+}
+
+func fileAttachmentFromUpload(upload todoist.Upload) *todoist.FileAttachment {
+	return &todoist.FileAttachment{
+		FileURL:      upload.FileURL,
+		FileName:     upload.FileName,
+		FileType:     upload.FileType,
+		FileSize:     upload.FileSize,
+		ResourceType: upload.ResourceType,
+		Image:        upload.Image,
+		ImageWidth:   upload.ImageWidth,
+		ImageHeight:  upload.ImageHeight,
+		UploadState:  upload.UploadState,
+	}
 }

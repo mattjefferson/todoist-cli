@@ -16,6 +16,7 @@ COMMANDS:
   project Manage projects
   comment Manage comments
   label   Manage labels
+  upload  Manage uploads
   auth    Manage auth token
   config  Manage config
 
@@ -85,6 +86,9 @@ USAGE:
   todoist comment add <content>
   todoist comment update <comment_id> --content <text>
   todoist comment delete <comment_id>
+
+FLAGS:
+  --file <path>   Upload file attachment
 `); err != nil {
 		return
 	}
@@ -102,6 +106,17 @@ USAGE:
 
 NOTES:
   <label> accepts exact label name unless --id is set.
+`); err != nil {
+		return
+	}
+}
+
+func printUploadUsage(out io.Writer) {
+	if _, err := fmt.Fprint(out, `todoist upload - upload commands
+
+USAGE:
+  todoist upload add <path>
+  todoist upload delete <file_url>
 `); err != nil {
 		return
 	}

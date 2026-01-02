@@ -6,9 +6,11 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"mime/multipart"
 	"net/http"
 	"net/url"
 	"os"
+	"path/filepath"
 	"strconv"
 	"strings"
 	"time"
@@ -211,6 +213,66 @@ func (c *Client) GetComment(ctx context.Context, id string) (Comment, error) {
 // DeleteComment deletes a comment by ID.
 func (c *Client) DeleteComment(ctx context.Context, id string) ([]byte, error) {
 	return c.delete(ctx, "/api/v1/comments/"+url.PathEscape(id))
+}
+
+// UploadFile uploads a file for use in comments.
+func (c *Client) UploadFile(ctx context.Context, path, name, projectID string) (Upload, []byte, error) {
+	var upload Upload
+	file, err := os.Open(path)
+	if err != nil {
+		return Upload{}, nil, err
+	}
+	defer func() {
+		if err := file.Close(); err != nil {
+			return
+		}
+	}()
+
+	body := &bytes.Buffer{}
+	writer := multipart.NewWriter(body)
+	if projectID != "" {
+		if err := writer.WriteField("project_id", projectID); err != nil {
+			return Upload{}, nil, err
+		}
+	}
+	if name != "" {
+		if err := writer.WriteField("file_name", name); err != nil {
+			return Upload{}, nil, err
+		}
+	}
+
+	fileName := name
+	if fileName == "" {
+		fileName = filepath.Base(path)
+	}
+	part, err := writer.CreateFormFile("file", fileName)
+	if err != nil {
+		return Upload{}, nil, err
+	}
+	if _, err := io.Copy(part, file); err != nil {
+		return Upload{}, nil, err
+	}
+	if err := writer.Close(); err != nil {
+		return Upload{}, nil, err
+	}
+
+	fullURL, err := c.url("/api/v1/uploads", nil)
+	if err != nil {
+		return Upload{}, nil, err
+	}
+	req, err := http.NewRequestWithContext(ctx, http.MethodPost, fullURL, body)
+	if err != nil {
+		return Upload{}, nil, err
+	}
+	req.Header.Set("Content-Type", writer.FormDataContentType())
+	raw, err := c.do(req, &upload)
+	return upload, raw, err
+}
+
+// DeleteUpload deletes a file upload by file URL.
+func (c *Client) DeleteUpload(ctx context.Context, fileURL string) ([]byte, error) {
+	params := map[string]string{"file_url": fileURL}
+	return c.deleteWithParams(ctx, "/api/v1/uploads", params)
 }
 
 // ListLabels fetches a page of labels.
@@ -422,6 +484,18 @@ func (c *Client) post(ctx context.Context, path string, body map[string]any, out
 
 func (c *Client) delete(ctx context.Context, path string) ([]byte, error) {
 	fullURL, err := c.url(path, nil)
+	if err != nil {
+		return nil, err
+	}
+	req, err := http.NewRequestWithContext(ctx, http.MethodDelete, fullURL, nil)
+	if err != nil {
+		return nil, err
+	}
+	return c.do(req, nil)
+}
+
+func (c *Client) deleteWithParams(ctx context.Context, path string, params map[string]string) ([]byte, error) {
+	fullURL, err := c.url(path, params)
 	if err != nil {
 		return nil, err
 	}

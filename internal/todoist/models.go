@@ -34,6 +34,19 @@ type Label struct {
 	IsFavorite bool   `json:"is_favorite,omitempty"`
 }
 
+// Upload represents a Todoist upload response.
+type Upload struct {
+	FileURL      string `json:"file_url"`
+	FileName     string `json:"file_name"`
+	FileSize     int    `json:"file_size"`
+	FileType     string `json:"file_type"`
+	ResourceType string `json:"resource_type,omitempty"`
+	Image        string `json:"image,omitempty"`
+	ImageWidth   int    `json:"image_width,omitempty"`
+	ImageHeight  int    `json:"image_height,omitempty"`
+	UploadState  string `json:"upload_state,omitempty"`
+}
+
 // Comment represents a Todoist comment.
 type Comment struct {
 	ID             string              `json:"id"`
@@ -53,5 +66,13 @@ type FileAttachment struct {
 	FileName     string `json:"file_name,omitempty"`
 	FileType     string `json:"file_type,omitempty"`
 	FileURL      string `json:"file_url,omitempty"`
+	FileSize     int    `json:"file_size,omitempty"`
+	UploadState  string `json:"upload_state,omitempty"`
 	ResourceType string `json:"resource_type,omitempty"`
+	Image        string `json:"image,omitempty"`
+	ImageWidth   int    `json:"image_width,omitempty"`
+	ImageHeight  int    `json:"image_height,omitempty"`
+	TnS          []any  `json:"tn_s,omitempty"`
+	TnM          []any  `json:"tn_m,omitempty"`
+	TnL          []any  `json:"tn_l,omitempty"`
 }

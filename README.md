@@ -13,6 +13,7 @@ COMMANDS:
   project Manage projects
   comment Manage comments
   label   Manage labels
+  upload  Manage uploads
   auth    Manage auth token
   config  Manage config
 
