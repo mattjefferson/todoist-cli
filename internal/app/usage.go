@@ -15,6 +15,7 @@ COMMANDS:
   task    Manage tasks
   project Manage projects
   comment Manage comments
+  label   Manage labels
   auth    Manage auth token
   config  Manage config
 
@@ -34,6 +35,7 @@ GLOBAL FLAGS:
 NOTES:
   Task identifiers accept exact task titles unless --id is set.
   Project identifiers accept exact project titles unless --id is set.
+  Label identifiers accept exact label names unless --id is set.
 `); err != nil {
 		return
 	}
@@ -83,6 +85,23 @@ USAGE:
   todoist comment add <content>
   todoist comment update <comment_id> --content <text>
   todoist comment delete <comment_id>
+`); err != nil {
+		return
+	}
+}
+
+func printLabelUsage(out io.Writer) {
+	if _, err := fmt.Fprint(out, `todoist label - label commands
+
+USAGE:
+  todoist label list
+  todoist label get <label>
+  todoist label add <name>
+  todoist label update <label>
+  todoist label delete <label>
+
+NOTES:
+  <label> accepts exact label name unless --id is set.
 `); err != nil {
 		return
 	}

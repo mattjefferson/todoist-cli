@@ -70,6 +70,32 @@ func printProjects(out io.Writer, projects []todoist.Project, mode outputMode) e
 	}
 }
 
+func printLabels(out io.Writer, labels []todoist.Label, mode outputMode) error {
+	switch mode {
+	case modeJSON:
+		payload := map[string]any{"results": labels}
+		return printJSON(out, payload)
+	case modePlain:
+		for _, label := range labels {
+			if _, err := fmt.Fprintf(out, "%s\t%s\t%s\t%d\t%t\n", label.ID, label.Name, label.Color, label.Order, label.IsFavorite); err != nil {
+				return err
+			}
+		}
+		return nil
+	default:
+		w := tabwriter.NewWriter(out, 0, 4, 2, ' ', 0)
+		if _, err := fmt.Fprintln(w, "ID\tNAME\tCOLOR\tORDER\tFAVORITE"); err != nil {
+			return err
+		}
+		for _, label := range labels {
+			if _, err := fmt.Fprintf(w, "%s\t%s\t%s\t%d\t%t\n", label.ID, label.Name, label.Color, label.Order, label.IsFavorite); err != nil {
+				return err
+			}
+		}
+		return w.Flush()
+	}
+}
+
 func printComments(out io.Writer, comments []todoist.Comment, mode outputMode) error {
 	switch mode {
 	case modeJSON:
@@ -118,6 +144,19 @@ func printProject(out io.Writer, project todoist.Project, mode outputMode) error
 		return err
 	default:
 		_, err := fmt.Fprintf(out, "ID: %s\nName: %s\n", project.ID, project.Name)
+		return err
+	}
+}
+
+func printLabel(out io.Writer, label todoist.Label, mode outputMode) error {
+	switch mode {
+	case modeJSON:
+		return printJSON(out, label)
+	case modePlain:
+		_, err := fmt.Fprintf(out, "%s\t%s\t%s\t%d\t%t\n", label.ID, label.Name, label.Color, label.Order, label.IsFavorite)
+		return err
+	default:
+		_, err := fmt.Fprintf(out, "ID: %s\nName: %s\nColor: %s\nOrder: %d\nFavorite: %t\n", label.ID, label.Name, label.Color, label.Order, label.IsFavorite)
 		return err
 	}
 }

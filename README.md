@@ -12,6 +12,7 @@ COMMANDS:
   task    Manage tasks
   project Manage projects
   comment Manage comments
+  label   Manage labels
   auth    Manage auth token
   config  Manage config
 
@@ -31,4 +32,5 @@ GLOBAL FLAGS:
 NOTES:
   Task identifiers accept exact task titles unless --id is set.
   Project identifiers accept exact project titles unless --id is set.
+  Label identifiers accept exact label names unless --id is set.
 ```

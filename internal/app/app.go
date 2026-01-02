@@ -93,6 +93,8 @@ func Run(args []string) int {
 		return runProject(ctx, state, rest[1:])
 	case "comment":
 		return runComment(ctx, state, rest[1:])
+	case "label":
+		return runLabel(ctx, state, rest[1:])
 	case "auth":
 		return runAuth(ctx, state, rest[1:])
 	case "config":
