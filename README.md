@@ -1,39 +1,201 @@
 # todoist-cli
-A cli for interacting with todoist
+CLI for Todoist.
 
-## Usage
-```text
-todoist - Todoist CLI
+## Quick start
+- `todoist auth login`
+- `todoist auth status`
+- `todoist task list`
 
-USAGE:
-  todoist [global flags] <command> [args]
+## Auth
+- `todoist auth login` prompts for token (TTY required).
+- `TODOIST_TOKEN` overrides token stored in config.
+- `todoist auth logout` clears config token.
 
-COMMANDS:
-  task    Manage tasks
-  project Manage projects
-  comment Manage comments
-  label   Manage labels
-  upload  Manage uploads
-  section Manage sections
-  auth    Manage auth token
-  config  Manage config
+## Output modes
+- Default: human-readable tables.
+- `--plain`: tab-delimited output (stable for scripts).
+- `--json`: structured JSON output.
+- Errors go to stderr.
 
-GLOBAL FLAGS:
-  -h, --help        Show help
-  --version         Show version
-  -q, --quiet        Less output
-  -v, --verbose      Verbose output
-  --json            JSON output
-  --plain           Plain output
-  --no-input        Disable prompts
-  --no-color        Disable color
-  --config <path>   Config path override
-  --api-base <url>  API base (default https://api.todoist.com)
-  --label-cli       Add label 'cli' to created tasks
+## Global flags
+- `-h, --help` show help
+- `--version` show version
+- `-q, --quiet` less output
+- `-v, --verbose` verbose output (logs HTTP requests)
+- `--json` JSON output
+- `--plain` plain output
+- `--no-input` disable prompts
+- `--no-color` disable color
+- `--config <path>` config path override
+- `--api-base <url>` API base override
+- `--label-cli` add label `cli` to created tasks
 
-NOTES:
-  Task identifiers accept exact task titles unless --id is set.
-  Project identifiers accept exact project titles unless --id is set.
-  Label identifiers accept exact label names unless --id is set.
-  Section identifiers accept exact section names unless --id is set.
-```
+## Name resolution rules
+- Task, project, label, section identifiers are exact name matches unless `--id` is set.
+- Section name lookups should be scoped with `--project` or `--project-id`.
+- Comment list/add requires a task or project scope.
+
+## Commands
+
+### user
+Fetch current user profile fields.
+
+Subcommands:
+- `info`
+  - Output: `id`, `email`, `full_name`
+
+Example:
+- `todoist user info`
+
+### task
+Manage tasks.
+
+Subcommands:
+- `list [project_title]`
+  - Flags: `--project`, `--label`, `--limit`, `--cursor`, `--all`
+- `get <task>`
+  - Flags: `--id`
+- `add <content>`
+  - Flags: `--description`, `--project`, `--project-id`, `--label` (repeatable), `--labels`,
+    `--priority`, `--assignee`, `--due`, `--due-date`, `--due-datetime`, `--due-lang`,
+    `--duration`, `--duration-unit`, `--deadline-date`
+- `update <task>`
+  - Flags: `--id`, `--content`, `--description`, `--label` (repeatable), `--labels`, `--priority`,
+    `--assignee`, `--due`, `--due-date`, `--due-datetime`, `--due-lang`, `--duration`,
+    `--duration-unit`, `--deadline-date`
+- `close <task>`
+  - Flags: `--id`
+- `reopen <task>`
+  - Flags: `--id`
+- `delete <task>`
+  - Flags: `--id`, `--force`
+- `quick <text>`
+  - Flags: `--note`, `--reminder`, `--auto-reminder`, `--meta`
+
+Examples:
+- `todoist task list`
+- `todoist task list "Inbox" --all`
+- `todoist task add "Write docs" --project "Docs" --priority 2`
+- `todoist task update "Write docs" --content "Write help"`
+- `todoist task delete "Write docs" --force`
+
+### project
+Manage projects.
+
+Subcommands:
+- `list`
+  - Flags: `--limit`, `--cursor`, `--all`
+- `get <project>`
+  - Flags: `--id`
+- `add <name>`
+  - Flags: `--parent`, `--parent-id`, `--color`, `--favorite`, `--view`
+- `update <project>`
+  - Flags: `--id`, `--name`, `--color`, `--favorite`, `--unfavorite`, `--view`
+- `delete <project>`
+  - Flags: `--id`, `--force`
+
+Examples:
+- `todoist project list --all`
+- `todoist project add "Docs" --favorite`
+- `todoist project update "Docs" --view board`
+
+### section
+Manage sections.
+
+Subcommands:
+- `list`
+  - Flags: `--project`, `--project-id`, `--limit`, `--cursor`, `--all`
+- `get <section>`
+  - Flags: `--id`, `--project`, `--project-id`
+- `add <name>`
+  - Flags: `--project`, `--project-id`, `--order`
+- `update <section>`
+  - Flags: `--id`, `--project`, `--project-id`, `--name`
+- `delete <section>`
+  - Flags: `--id`, `--project`, `--project-id`, `--force`
+
+Examples:
+- `todoist section list --project "Docs"`
+- `todoist section add "Backlog" --project "Docs"`
+- `todoist section update "Backlog" --project "Docs" --name "Next"`
+
+### label
+Manage labels.
+
+Subcommands:
+- `list`
+  - Flags: `--limit`, `--cursor`, `--all`
+- `get <label>`
+  - Flags: `--id`
+- `add <name>`
+  - Flags: `--color`, `--favorite`
+- `update <label>`
+  - Flags: `--id`, `--name`, `--color`, `--favorite`, `--unfavorite`
+- `delete <label>`
+  - Flags: `--id`, `--force`
+
+Examples:
+- `todoist label list`
+- `todoist label add "waiting" --color blue --favorite`
+- `todoist label update "waiting" --color red`
+
+### comment
+Manage comments.
+
+Subcommands:
+- `list`
+  - Flags: `--task`, `--task-id`, `--project`, `--project-id`, `--limit`, `--cursor`, `--all`
+- `get <comment_id>`
+- `add <content>`
+  - Flags: `--task`, `--task-id`, `--project`, `--project-id`, `--notify` (repeatable),
+    `--file`, `--file-name`
+- `update <comment_id>`
+  - Flags: `--content`
+- `delete <comment_id>`
+  - Flags: `--force`
+
+Examples:
+- `todoist comment list --task "Write docs"`
+- `todoist comment add "LGTM" --task-id 123 --notify 456`
+- `todoist comment add "See file" --task "Inbox" --file ./spec.pdf`
+
+### upload
+Manage uploads for comment attachments.
+
+Subcommands:
+- `add <path>`
+  - Flags: `--project`, `--project-id`, `--name`
+- `delete <file_url>`
+  - Flags: `--file-url`, `--force`
+
+Examples:
+- `todoist upload add ./spec.pdf --project "Docs"`
+- `todoist upload delete https://.../file.pdf`
+
+### auth
+Manage auth token.
+
+Subcommands:
+- `login` (TTY only)
+- `logout`
+- `status`
+
+### config
+Manage local config.
+
+Subcommands:
+- `get <key>`
+- `set <key> <value>`
+- `path`
+- `view`
+
+Keys:
+- `token` (set via `auth login`)
+- `api_base`
+- `default_project`
+- `default_labels`
+- `label_cli`
+
+Notes:
+- Use `todoist config path` to find the config file.
+- `default_project` and `default_labels` are stored but not yet applied automatically.
