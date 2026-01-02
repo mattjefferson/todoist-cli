@@ -153,6 +153,15 @@ func (c *Client) ListProjectsAll(ctx context.Context) ([]Project, error) {
 	return all, nil
 }
 
+// GetUserInfo fetches the authenticated user.
+func (c *Client) GetUserInfo(ctx context.Context) (User, error) {
+	var user User
+	if err := c.get(ctx, "/api/v1/user", nil, &user); err != nil {
+		return User{}, err
+	}
+	return user, nil
+}
+
 // ListSections fetches a page of sections.
 func (c *Client) ListSections(ctx context.Context, params map[string]string) ([]Section, string, error) {
 	var resp listResponse[Section]

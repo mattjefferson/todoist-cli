@@ -99,6 +99,8 @@ func Run(args []string) int {
 		return runUpload(ctx, state, rest[1:])
 	case "section":
 		return runSection(ctx, state, rest[1:])
+	case "user":
+		return runUser(ctx, state, rest[1:])
 	case "auth":
 		return runAuth(ctx, state, rest[1:])
 	case "config":

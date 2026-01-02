@@ -25,6 +25,13 @@ type Project struct {
 	Name string `json:"name"`
 }
 
+// User represents the currently authenticated Todoist user.
+type User struct {
+	ID       string `json:"id"`
+	Email    string `json:"email"`
+	FullName string `json:"full_name"`
+}
+
 // Section represents a Todoist section.
 type Section struct {
 	ID           string `json:"id"`

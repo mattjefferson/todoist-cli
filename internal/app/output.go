@@ -70,6 +70,19 @@ func printProjects(out io.Writer, projects []todoist.Project, mode outputMode) e
 	}
 }
 
+func printUser(out io.Writer, user todoist.User, mode outputMode) error {
+	switch mode {
+	case modeJSON:
+		return printJSON(out, user)
+	case modePlain:
+		_, err := fmt.Fprintf(out, "%s\t%s\t%s\n", user.ID, user.Email, user.FullName)
+		return err
+	default:
+		_, err := fmt.Fprintf(out, "ID: %s\nEmail: %s\nFull Name: %s\n", user.ID, user.Email, user.FullName)
+		return err
+	}
+}
+
 func printSections(out io.Writer, sections []todoist.Section, mode outputMode) error {
 	switch mode {
 	case modeJSON:
