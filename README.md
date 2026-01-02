@@ -14,6 +14,7 @@ COMMANDS:
   comment Manage comments
   label   Manage labels
   upload  Manage uploads
+  section Manage sections
   auth    Manage auth token
   config  Manage config
 
@@ -34,4 +35,5 @@ NOTES:
   Task identifiers accept exact task titles unless --id is set.
   Project identifiers accept exact project titles unless --id is set.
   Label identifiers accept exact label names unless --id is set.
+  Section identifiers accept exact section names unless --id is set.
 ```

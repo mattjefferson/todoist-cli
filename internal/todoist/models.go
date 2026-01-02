@@ -25,6 +25,21 @@ type Project struct {
 	Name string `json:"name"`
 }
 
+// Section represents a Todoist section.
+type Section struct {
+	ID           string `json:"id"`
+	UserID       string `json:"user_id,omitempty"`
+	ProjectID    string `json:"project_id"`
+	AddedAt      string `json:"added_at,omitempty"`
+	UpdatedAt    string `json:"updated_at,omitempty"`
+	ArchivedAt   string `json:"archived_at,omitempty"`
+	Name         string `json:"name"`
+	SectionOrder int    `json:"section_order,omitempty"`
+	IsArchived   bool   `json:"is_archived,omitempty"`
+	IsDeleted    bool   `json:"is_deleted,omitempty"`
+	IsCollapsed  bool   `json:"is_collapsed,omitempty"`
+}
+
 // Label represents a Todoist label.
 type Label struct {
 	ID         string `json:"id"`

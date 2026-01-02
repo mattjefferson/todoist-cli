@@ -97,6 +97,8 @@ func Run(args []string) int {
 		return runLabel(ctx, state, rest[1:])
 	case "upload":
 		return runUpload(ctx, state, rest[1:])
+	case "section":
+		return runSection(ctx, state, rest[1:])
 	case "auth":
 		return runAuth(ctx, state, rest[1:])
 	case "config":

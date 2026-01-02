@@ -70,6 +70,32 @@ func printProjects(out io.Writer, projects []todoist.Project, mode outputMode) e
 	}
 }
 
+func printSections(out io.Writer, sections []todoist.Section, mode outputMode) error {
+	switch mode {
+	case modeJSON:
+		payload := map[string]any{"results": sections}
+		return printJSON(out, payload)
+	case modePlain:
+		for _, section := range sections {
+			if _, err := fmt.Fprintf(out, "%s\t%s\t%s\t%d\n", section.ID, section.Name, section.ProjectID, section.SectionOrder); err != nil {
+				return err
+			}
+		}
+		return nil
+	default:
+		w := tabwriter.NewWriter(out, 0, 4, 2, ' ', 0)
+		if _, err := fmt.Fprintln(w, "ID\tNAME\tPROJECT\tORDER"); err != nil {
+			return err
+		}
+		for _, section := range sections {
+			if _, err := fmt.Fprintf(w, "%s\t%s\t%s\t%d\n", section.ID, section.Name, section.ProjectID, section.SectionOrder); err != nil {
+				return err
+			}
+		}
+		return w.Flush()
+	}
+}
+
 func printLabels(out io.Writer, labels []todoist.Label, mode outputMode) error {
 	switch mode {
 	case modeJSON:
@@ -144,6 +170,19 @@ func printProject(out io.Writer, project todoist.Project, mode outputMode) error
 		return err
 	default:
 		_, err := fmt.Fprintf(out, "ID: %s\nName: %s\n", project.ID, project.Name)
+		return err
+	}
+}
+
+func printSection(out io.Writer, section todoist.Section, mode outputMode) error {
+	switch mode {
+	case modeJSON:
+		return printJSON(out, section)
+	case modePlain:
+		_, err := fmt.Fprintf(out, "%s\t%s\t%s\t%d\n", section.ID, section.Name, section.ProjectID, section.SectionOrder)
+		return err
+	default:
+		_, err := fmt.Fprintf(out, "ID: %s\nName: %s\nProject: %s\nOrder: %d\n", section.ID, section.Name, section.ProjectID, section.SectionOrder)
 		return err
 	}
 }

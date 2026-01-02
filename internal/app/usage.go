@@ -17,6 +17,7 @@ COMMANDS:
   comment Manage comments
   label   Manage labels
   upload  Manage uploads
+  section Manage sections
   auth    Manage auth token
   config  Manage config
 
@@ -37,6 +38,7 @@ NOTES:
   Task identifiers accept exact task titles unless --id is set.
   Project identifiers accept exact project titles unless --id is set.
   Label identifiers accept exact label names unless --id is set.
+  Section identifiers accept exact section names unless --id is set.
 `); err != nil {
 		return
 	}
@@ -117,6 +119,24 @@ func printUploadUsage(out io.Writer) {
 USAGE:
   todoist upload add <path>
   todoist upload delete <file_url>
+`); err != nil {
+		return
+	}
+}
+
+func printSectionUsage(out io.Writer) {
+	if _, err := fmt.Fprint(out, `todoist section - section commands
+
+USAGE:
+  todoist section list
+  todoist section get <section>
+  todoist section add <name>
+  todoist section update <section> --name <name>
+  todoist section delete <section>
+
+NOTES:
+  <section> accepts exact section name unless --id is set.
+  Use --project or --project-id to scope name lookups.
 `); err != nil {
 		return
 	}
