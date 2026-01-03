@@ -6,11 +6,11 @@ import (
 )
 
 func printUsage(out io.Writer) {
-	if _, err := fmt.Fprint(out, `todoist - Todoist CLI
+	if _, err := fmt.Fprint(out, `todi - CLI
 
 USAGE:
-  todoist [global flags] <task-command> [args]
-  todoist [global flags] <command> [args]
+  todi [global flags] <task-command> [args]
+  todi [global flags] <command> [args]
 
 COMMANDS:
   task    Manage tasks
@@ -43,12 +43,12 @@ OUTPUT MODES:
   --json            Structured JSON output
 
 AUTH:
-  todoist auth login            Save token to config
+  todi auth login            Save token to config
   TODOIST_TOKEN                 Overrides token in config
-  todoist config path           Print config file path
+  todi config path           Print config file path
 
 NOTES:
-  Task commands can be used without the "task" prefix (e.g. todoist list, todoist add).
+  Task commands can be used without the "task" prefix (e.g. todi list, todi add).
   Task identifiers accept exact task titles unless --id is set.
   Project identifiers accept exact project titles unless --id is set.
   Label identifiers accept exact label names unless --id is set.
@@ -60,17 +60,17 @@ NOTES:
 }
 
 func printTaskUsage(out io.Writer) {
-	if _, err := fmt.Fprint(out, `todoist task - task commands
+	if _, err := fmt.Fprint(out, `todi task - task commands
 
 USAGE:
-  todoist list [project_title]
-  todoist get <task>
-  todoist add <content>
-  todoist update <task>
-  todoist close <task>
-  todoist reopen <task>
-  todoist delete <task>
-  todoist quick <text>
+  todi list [project_title]
+  todi get <task>
+  todi add <content>
+  todi update <task>
+  todi close <task>
+  todi reopen <task>
+  todi delete <task>
+  todi quick <text>
 
 FLAGS (list):
   --project <title>        Project title (exact match)
@@ -124,11 +124,11 @@ FLAGS (quick):
   --meta                   Include metadata
 
 EXAMPLES:
-  todoist list
-  todoist list "Inbox" --all
-  todoist add "Write docs" --project "Docs"
-  todoist update "Write docs" --content "Write help" --priority 2
-  todoist close "Write docs"
+  todi list
+  todi list "Inbox" --all
+  todi add "Write docs" --project "Docs"
+  todi update "Write docs" --content "Write help" --priority 2
+  todi close "Write docs"
 
 NOTES:
   Task commands can also be called with the "task" prefix.
@@ -139,12 +139,12 @@ NOTES:
 }
 
 func printAuthUsage(out io.Writer) {
-	if _, err := fmt.Fprint(out, `todoist auth - auth commands
+	if _, err := fmt.Fprint(out, `todi auth - auth commands
 
 USAGE:
-  todoist auth login
-  todoist auth logout
-  todoist auth status
+  todi auth login
+  todi auth logout
+  todi auth status
 
 NOTES:
   login prompts for a token (TTY required).
@@ -155,17 +155,17 @@ NOTES:
 }
 
 func printCommentUsage(out io.Writer) {
-	if _, err := fmt.Fprint(out, `todoist comment - comment commands
+	if _, err := fmt.Fprint(out, `todi comment - comment commands
 
 USAGE:
-  todoist comment list --task <title>
-  todoist comment list --task-id <id>
-  todoist comment list --project <title>
-  todoist comment list --project-id <id>
-  todoist comment get <comment_id>
-  todoist comment add <content>
-  todoist comment update <comment_id> --content <text>
-  todoist comment delete <comment_id>
+  todi comment list --task <title>
+  todi comment list --task-id <id>
+  todi comment list --project <title>
+  todi comment list --project-id <id>
+  todi comment get <comment_id>
+  todi comment add <content>
+  todi comment update <comment_id> --content <text>
+  todi comment delete <comment_id>
 
 FLAGS (list):
   --task <title>           Task title (exact match)
@@ -192,19 +192,19 @@ FLAGS (delete):
   --force                  Skip confirmation
 
 EXAMPLES:
-  todoist comment list --task "Write docs"
-  todoist comment add "LGTM" --task-id 123 --notify 456
-  todoist comment add "See file" --task "Inbox" --file ./spec.pdf
+  todi comment list --task "Write docs"
+  todi comment add "LGTM" --task-id 123 --notify 456
+  todi comment add "See file" --task "Inbox" --file ./spec.pdf
 `); err != nil {
 		return
 	}
 }
 
 func printActivityUsage(out io.Writer) {
-	if _, err := fmt.Fprint(out, `todoist activity - activity log commands
+	if _, err := fmt.Fprint(out, `todi activity - activity log commands
 
 USAGE:
-  todoist activity list
+  todi activity list
 
 FLAGS (list):
   --limit <n>              Max events per page (1-100)
@@ -224,23 +224,23 @@ FLAGS (list):
   --all                    Fetch all pages
 
 EXAMPLES:
-  todoist activity list
-  todoist activity list --object-type item --event-type completed
-  todoist activity list --object-id 123 --include-parent-object
+  todi activity list
+  todi activity list --object-type item --event-type completed
+  todi activity list --object-id 123 --include-parent-object
 `); err != nil {
 		return
 	}
 }
 
 func printLabelUsage(out io.Writer) {
-	if _, err := fmt.Fprint(out, `todoist label - label commands
+	if _, err := fmt.Fprint(out, `todi label - label commands
 
 USAGE:
-  todoist label list
-  todoist label get <label>
-  todoist label add <name>
-  todoist label update <label>
-  todoist label delete <label>
+  todi label list
+  todi label get <label>
+  todi label add <name>
+  todi label update <label>
+  todi label delete <label>
 
 FLAGS (list):
   --limit <n>              Max labels per page (1-200)
@@ -264,9 +264,9 @@ FLAGS (delete):
   --force                  Skip confirmation
 
 EXAMPLES:
-  todoist label list
-  todoist label add "waiting" --color blue --favorite
-  todoist label update "waiting" --color red
+  todi label list
+  todi label add "waiting" --color blue --favorite
+  todi label update "waiting" --color red
 
 NOTES:
   <label> accepts exact label name unless --id is set.
@@ -276,11 +276,11 @@ NOTES:
 }
 
 func printUploadUsage(out io.Writer) {
-	if _, err := fmt.Fprint(out, `todoist upload - upload commands
+	if _, err := fmt.Fprint(out, `todi upload - upload commands
 
 USAGE:
-  todoist upload add <path>
-  todoist upload delete <file_url>
+  todi upload add <path>
+  todi upload delete <file_url>
 
 FLAGS (add):
   --project <title>        Project title (exact match)
@@ -292,22 +292,22 @@ FLAGS (delete):
   --force                  Skip confirmation
 
 EXAMPLES:
-  todoist upload add ./spec.pdf --project "Docs"
-  todoist upload delete https://.../file.pdf
+  todi upload add ./spec.pdf --project "Docs"
+  todi upload delete https://.../file.pdf
 `); err != nil {
 		return
 	}
 }
 
 func printSectionUsage(out io.Writer) {
-	if _, err := fmt.Fprint(out, `todoist section - section commands
+	if _, err := fmt.Fprint(out, `todi section - section commands
 
 USAGE:
-  todoist section list
-  todoist section get <section>
-  todoist section add <name>
-  todoist section update <section> --name <name>
-  todoist section delete <section>
+  todi section list
+  todi section get <section>
+  todi section add <name>
+  todi section update <section> --name <name>
+  todi section delete <section>
 
 FLAGS (list):
   --project <title>        Project title (exact match)
@@ -330,9 +330,9 @@ FLAGS (delete):
   --force                  Skip confirmation
 
 EXAMPLES:
-  todoist section list --project "Docs"
-  todoist section add "Backlog" --project "Docs"
-  todoist section update "Backlog" --project "Docs" --name "Next"
+  todi section list --project "Docs"
+  todi section add "Backlog" --project "Docs"
+  todi section update "Backlog" --project "Docs" --name "Next"
 
 NOTES:
   <section> accepts exact section name unless --id is set.
@@ -343,14 +343,14 @@ NOTES:
 }
 
 func printProjectUsage(out io.Writer) {
-	if _, err := fmt.Fprint(out, `todoist project - project commands
+	if _, err := fmt.Fprint(out, `todi project - project commands
 
 USAGE:
-  todoist project list
-  todoist project get <project>
-  todoist project add <name>
-  todoist project update <project>
-  todoist project delete <project>
+  todi project list
+  todi project get <project>
+  todi project add <name>
+  todi project update <project>
+  todi project delete <project>
 
 FLAGS (list):
   --limit <n>              Max projects per page (1-200)
@@ -378,9 +378,9 @@ FLAGS (delete):
   --force                  Skip confirmation
 
 EXAMPLES:
-  todoist project list --all
-  todoist project add "Docs" --favorite
-  todoist project update "Docs" --view board
+  todi project list --all
+  todi project add "Docs" --favorite
+  todi project update "Docs" --view board
 
 NOTES:
   <project> accepts exact project title unless --id is set.
@@ -390,10 +390,10 @@ NOTES:
 }
 
 func printUserUsage(out io.Writer) {
-	if _, err := fmt.Fprint(out, `todoist user - user commands
+	if _, err := fmt.Fprint(out, `todi user - user commands
 
 USAGE:
-  todoist user info
+  todi user info
 
 OUTPUT:
   id, email, full_name
@@ -403,13 +403,13 @@ OUTPUT:
 }
 
 func printConfigUsage(out io.Writer) {
-	if _, err := fmt.Fprint(out, `todoist config - config commands
+	if _, err := fmt.Fprint(out, `todi config - config commands
 
 USAGE:
-  todoist config get <key>
-  todoist config set <key> <value>
-  todoist config path
-  todoist config view
+  todi config get <key>
+  todi config set <key> <value>
+  todi config path
+  todi config view
 
 KEYS:
   token              Stored auth token (set via auth login)

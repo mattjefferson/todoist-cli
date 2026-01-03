@@ -35,7 +35,7 @@ func runAuth(ctx context.Context, state *state, args []string) int {
 }
 
 func runAuthLogin(ctx context.Context, state *state, args []string) int {
-	fs := flag.NewFlagSet("todoist auth login", flag.ContinueOnError)
+	fs := flag.NewFlagSet("todi auth login", flag.ContinueOnError)
 	fs.SetOutput(io.Discard)
 	var help bool
 	fs.BoolVar(&help, "help", false, "Show help")

@@ -1,20 +1,20 @@
 version: 2
 
-project_name: todoist
+project_name: todi
 
 before:
   hooks:
     - go mod tidy
 
 builds:
-  - id: todoist
-    main: ./cmd/todoist
-    binary: todoist
+  - id: todi
+    main: ./cmd/todi
+    binary: todi
     ldflags:
       - -s -w
-      - -X github.com/mattjefferson/todoist-cli/internal/app.version={{.Version}}
-      - -X github.com/mattjefferson/todoist-cli/internal/app.commit={{.Commit}}
-      - -X github.com/mattjefferson/todoist-cli/internal/app.date={{.Date}}
+      - -X github.com/mattjefferson/todi/internal/app.version={{.Version}}
+      - -X github.com/mattjefferson/todi/internal/app.commit={{.Commit}}
+      - -X github.com/mattjefferson/todi/internal/app.date={{.Date}}
     goos:
       - darwin
       - linux

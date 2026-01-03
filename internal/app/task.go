@@ -8,7 +8,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/mattjefferson/todoist-cli/internal/todoist"
+	"github.com/mattjefferson/todi/internal/todi"
 )
 
 type stringSlice []string
@@ -57,7 +57,7 @@ func runTask(ctx context.Context, state *state, args []string) int {
 }
 
 func runTaskList(ctx context.Context, state *state, args []string) int {
-	fs := flag.NewFlagSet("todoist task list", flag.ContinueOnError)
+	fs := flag.NewFlagSet("todi task list", flag.ContinueOnError)
 	fs.SetOutput(io.Discard)
 	var help bool
 	var projectName string
@@ -147,7 +147,7 @@ func runTaskList(ctx context.Context, state *state, args []string) int {
 }
 
 func runTaskGet(ctx context.Context, state *state, args []string) int {
-	fs := flag.NewFlagSet("todoist task get", flag.ContinueOnError)
+	fs := flag.NewFlagSet("todi task get", flag.ContinueOnError)
 	fs.SetOutput(io.Discard)
 	var help bool
 	var forceID bool
@@ -187,7 +187,7 @@ func runTaskGet(ctx context.Context, state *state, args []string) int {
 }
 
 func runTaskAdd(ctx context.Context, state *state, args []string) int {
-	fs := flag.NewFlagSet("todoist task add", flag.ContinueOnError)
+	fs := flag.NewFlagSet("todi task add", flag.ContinueOnError)
 	fs.SetOutput(io.Discard)
 	var help bool
 	var description string
@@ -319,7 +319,7 @@ func runTaskAdd(ctx context.Context, state *state, args []string) int {
 }
 
 func runTaskUpdate(ctx context.Context, state *state, args []string) int {
-	fs := flag.NewFlagSet("todoist task update", flag.ContinueOnError)
+	fs := flag.NewFlagSet("todi task update", flag.ContinueOnError)
 	fs.SetOutput(io.Discard)
 	var help bool
 	var forceID bool
@@ -509,7 +509,7 @@ func runTaskDelete(ctx context.Context, state *state, args []string) int {
 }
 
 func runTaskQuick(ctx context.Context, state *state, args []string) int {
-	fs := flag.NewFlagSet("todoist task quick", flag.ContinueOnError)
+	fs := flag.NewFlagSet("todi task quick", flag.ContinueOnError)
 	fs.SetOutput(io.Discard)
 	var help bool
 	var note string
@@ -585,7 +585,7 @@ func runTaskQuick(ctx context.Context, state *state, args []string) int {
 }
 
 func taskAction(ctx context.Context, state *state, action string, args []string, destructive bool) (string, []byte, int) {
-	fs := flag.NewFlagSet("todoist task "+action, flag.ContinueOnError)
+	fs := flag.NewFlagSet("todi task "+action, flag.ContinueOnError)
 	fs.SetOutput(io.Discard)
 	var help bool
 	var forceID bool
@@ -647,14 +647,14 @@ func taskAction(ctx context.Context, state *state, action string, args []string,
 	return id, raw, 0
 }
 
-func resolveTask(ctx context.Context, client *todoist.Client, identifier string, forceID bool) (todoist.Task, error) {
+func resolveTask(ctx context.Context, client *todi.Client, identifier string, forceID bool) (todi.Task, error) {
 	if forceID {
 		return client.GetTask(ctx, identifier)
 	}
 	return client.FindTaskByContent(ctx, identifier)
 }
 
-func resolveTaskID(ctx context.Context, client *todoist.Client, identifier string, forceID bool) (string, error) {
+func resolveTaskID(ctx context.Context, client *todi.Client, identifier string, forceID bool) (string, error) {
 	if forceID {
 		return identifier, nil
 	}
@@ -668,7 +668,7 @@ func resolveTaskID(ctx context.Context, client *todoist.Client, identifier strin
 	return task.ID, nil
 }
 
-func resolveProjectID(ctx context.Context, client *todoist.Client, projectName, projectID string) (string, error) {
+func resolveProjectID(ctx context.Context, client *todi.Client, projectName, projectID string) (string, error) {
 	if projectName != "" && projectID != "" {
 		return "", fmt.Errorf("cannot use --project and --project-id together")
 	}

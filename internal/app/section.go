@@ -8,7 +8,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/mattjefferson/todoist-cli/internal/todoist"
+	"github.com/mattjefferson/todi/internal/todi"
 )
 
 func runSection(ctx context.Context, state *state, args []string) int {
@@ -38,7 +38,7 @@ func runSection(ctx context.Context, state *state, args []string) int {
 }
 
 func runSectionList(ctx context.Context, state *state, args []string) int {
-	fs := flag.NewFlagSet("todoist section list", flag.ContinueOnError)
+	fs := flag.NewFlagSet("todi section list", flag.ContinueOnError)
 	fs.SetOutput(io.Discard)
 	var help bool
 	var projectName string
@@ -123,7 +123,7 @@ func runSectionList(ctx context.Context, state *state, args []string) int {
 }
 
 func runSectionGet(ctx context.Context, state *state, args []string) int {
-	fs := flag.NewFlagSet("todoist section get", flag.ContinueOnError)
+	fs := flag.NewFlagSet("todi section get", flag.ContinueOnError)
 	fs.SetOutput(io.Discard)
 	var help bool
 	var forceID bool
@@ -173,7 +173,7 @@ func runSectionGet(ctx context.Context, state *state, args []string) int {
 }
 
 func runSectionAdd(ctx context.Context, state *state, args []string) int {
-	fs := flag.NewFlagSet("todoist section add", flag.ContinueOnError)
+	fs := flag.NewFlagSet("todi section add", flag.ContinueOnError)
 	fs.SetOutput(io.Discard)
 	var help bool
 	var projectName string
@@ -244,7 +244,7 @@ func runSectionAdd(ctx context.Context, state *state, args []string) int {
 }
 
 func runSectionUpdate(ctx context.Context, state *state, args []string) int {
-	fs := flag.NewFlagSet("todoist section update", flag.ContinueOnError)
+	fs := flag.NewFlagSet("todi section update", flag.ContinueOnError)
 	fs.SetOutput(io.Discard)
 	var help bool
 	var forceID bool
@@ -318,7 +318,7 @@ func runSectionUpdate(ctx context.Context, state *state, args []string) int {
 }
 
 func runSectionDelete(ctx context.Context, state *state, args []string) int {
-	fs := flag.NewFlagSet("todoist section delete", flag.ContinueOnError)
+	fs := flag.NewFlagSet("todi section delete", flag.ContinueOnError)
 	fs.SetOutput(io.Discard)
 	var help bool
 	var forceID bool
@@ -385,14 +385,14 @@ func runSectionDelete(ctx context.Context, state *state, args []string) int {
 	return 0
 }
 
-func resolveSection(ctx context.Context, client *todoist.Client, identifier string, forceID bool, projectID string) (todoist.Section, error) {
+func resolveSection(ctx context.Context, client *todi.Client, identifier string, forceID bool, projectID string) (todi.Section, error) {
 	if forceID {
 		return client.GetSection(ctx, identifier)
 	}
 	return client.FindSectionByName(ctx, identifier, projectID)
 }
 
-func resolveSectionIDFromIdentifier(ctx context.Context, client *todoist.Client, identifier string, forceID bool, projectID string) (string, error) {
+func resolveSectionIDFromIdentifier(ctx context.Context, client *todi.Client, identifier string, forceID bool, projectID string) (string, error) {
 	if forceID {
 		return identifier, nil
 	}

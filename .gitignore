@@ -26,12 +26,12 @@ out/
 target/
 
 # Compiled binary files
-todoist
+todi
 *.bin
-!cmd/todoist/
-!cmd/todoist/**
-!internal/todoist/
-!internal/todoist/**
+!cmd/todi/
+!cmd/todi/**
+!internal/todi/
+!internal/todi/**
 
 # macOS-specific files
 .DS_Store

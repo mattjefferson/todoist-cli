@@ -12,11 +12,11 @@ read_when:
 - If the repo has its own release doc, follow it; otherwise adapt this guidance to the stack and add a repo-local checklist.
 - When a release publishes, verify the tag, assets, and notes on GitHub before announcing; fix mismatches immediately (retitle, re-upload assets, or retag if necessary).
 
-# Todoist CLI Release (this repo)
+# todi Release (this repo)
 
 ## Notes
 - Tag format: `v<version>` (release workflow triggers on `v*` tags).
-- GoReleaser config: `.goreleaser.yml` (project name `todoist`).
+- GoReleaser config: `.goreleaser.yml` (project name `todi`).
 - Version stamping via ldflags (`internal/app.version`, `commit`, `date`).
 - GoReleaser changelog disabled; release notes must come from `CHANGELOG.md`.
 
@@ -29,6 +29,6 @@ read_when:
    - `git push origin v1.2.3`
 5. Verify GitHub Actions `release` workflow ran.
 6. Verify GitHub release:
-   - Title: `todoist v1.2.3` (matches GoReleaser `name_template`).
+   - Title: `todi v1.2.3` (matches GoReleaser `name_template`).
    - Body: `CHANGELOG.md` bullets for that version, verbatim + ordered.
    - Assets: OS/arch tarballs + `checksums.txt` (archives include LICENSE/README/CHANGELOG).

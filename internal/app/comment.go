@@ -8,7 +8,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/mattjefferson/todoist-cli/internal/todoist"
+	"github.com/mattjefferson/todi/internal/todi"
 )
 
 type int64Slice []int64
@@ -57,7 +57,7 @@ func runComment(ctx context.Context, state *state, args []string) int {
 }
 
 func runCommentList(ctx context.Context, state *state, args []string) int {
-	fs := flag.NewFlagSet("todoist comment list", flag.ContinueOnError)
+	fs := flag.NewFlagSet("todi comment list", flag.ContinueOnError)
 	fs.SetOutput(io.Discard)
 	var help bool
 	var taskTitle string
@@ -143,7 +143,7 @@ func runCommentList(ctx context.Context, state *state, args []string) int {
 }
 
 func runCommentGet(ctx context.Context, state *state, args []string) int {
-	fs := flag.NewFlagSet("todoist comment get", flag.ContinueOnError)
+	fs := flag.NewFlagSet("todi comment get", flag.ContinueOnError)
 	fs.SetOutput(io.Discard)
 	var help bool
 	fs.BoolVar(&help, "help", false, "Show help")
@@ -181,7 +181,7 @@ func runCommentGet(ctx context.Context, state *state, args []string) int {
 }
 
 func runCommentAdd(ctx context.Context, state *state, args []string) int {
-	fs := flag.NewFlagSet("todoist comment add", flag.ContinueOnError)
+	fs := flag.NewFlagSet("todi comment add", flag.ContinueOnError)
 	fs.SetOutput(io.Discard)
 	var help bool
 	var taskTitle string
@@ -270,7 +270,7 @@ func runCommentAdd(ctx context.Context, state *state, args []string) int {
 }
 
 func runCommentUpdate(ctx context.Context, state *state, args []string) int {
-	fs := flag.NewFlagSet("todoist comment update", flag.ContinueOnError)
+	fs := flag.NewFlagSet("todi comment update", flag.ContinueOnError)
 	fs.SetOutput(io.Discard)
 	var help bool
 	var content string
@@ -326,7 +326,7 @@ func runCommentUpdate(ctx context.Context, state *state, args []string) int {
 }
 
 func runCommentDelete(ctx context.Context, state *state, args []string) int {
-	fs := flag.NewFlagSet("todoist comment delete", flag.ContinueOnError)
+	fs := flag.NewFlagSet("todi comment delete", flag.ContinueOnError)
 	fs.SetOutput(io.Discard)
 	var help bool
 	var force bool
@@ -376,7 +376,7 @@ func runCommentDelete(ctx context.Context, state *state, args []string) int {
 	return 0
 }
 
-func resolveCommentScope(ctx context.Context, client *todoist.Client, taskTitle, taskID, projectName, projectID string) (string, string, error) {
+func resolveCommentScope(ctx context.Context, client *todi.Client, taskTitle, taskID, projectName, projectID string) (string, string, error) {
 	if taskTitle != "" && taskID != "" {
 		return "", "", fmt.Errorf("cannot use --task and --task-id together")
 	}
@@ -414,8 +414,8 @@ func resolveCommentScope(ctx context.Context, client *todoist.Client, taskTitle,
 	return "", "", fmt.Errorf("task or project required")
 }
 
-func fileAttachmentFromUpload(upload todoist.Upload) *todoist.FileAttachment {
-	return &todoist.FileAttachment{
+func fileAttachmentFromUpload(upload todi.Upload) *todi.FileAttachment {
+	return &todi.FileAttachment{
 		FileURL:      upload.FileURL,
 		FileName:     upload.FileName,
 		FileType:     upload.FileType,

@@ -29,7 +29,7 @@ func runUpload(ctx context.Context, state *state, args []string) int {
 }
 
 func runUploadAdd(ctx context.Context, state *state, args []string) int {
-	fs := flag.NewFlagSet("todoist upload add", flag.ContinueOnError)
+	fs := flag.NewFlagSet("todi upload add", flag.ContinueOnError)
 	fs.SetOutput(io.Discard)
 	var help bool
 	var projectName string
@@ -86,7 +86,7 @@ func runUploadAdd(ctx context.Context, state *state, args []string) int {
 }
 
 func runUploadDelete(ctx context.Context, state *state, args []string) int {
-	fs := flag.NewFlagSet("todoist upload delete", flag.ContinueOnError)
+	fs := flag.NewFlagSet("todi upload delete", flag.ContinueOnError)
 	fs.SetOutput(io.Discard)
 	var help bool
 	var fileURL string

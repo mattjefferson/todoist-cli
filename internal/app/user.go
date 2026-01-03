@@ -25,7 +25,7 @@ func runUser(ctx context.Context, state *state, args []string) int {
 }
 
 func runUserInfo(ctx context.Context, state *state, args []string) int {
-	fs := flag.NewFlagSet("todoist user info", flag.ContinueOnError)
+	fs := flag.NewFlagSet("todi user info", flag.ContinueOnError)
 	fs.SetOutput(io.Discard)
 	var help bool
 	fs.BoolVar(&help, "help", false, "Show help")

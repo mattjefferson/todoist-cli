@@ -8,7 +8,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/mattjefferson/todoist-cli/internal/todoist"
+	"github.com/mattjefferson/todi/internal/todi"
 )
 
 func runLabel(ctx context.Context, state *state, args []string) int {
@@ -38,7 +38,7 @@ func runLabel(ctx context.Context, state *state, args []string) int {
 }
 
 func runLabelList(ctx context.Context, state *state, args []string) int {
-	fs := flag.NewFlagSet("todoist label list", flag.ContinueOnError)
+	fs := flag.NewFlagSet("todi label list", flag.ContinueOnError)
 	fs.SetOutput(io.Discard)
 	var help bool
 	var limit int
@@ -110,7 +110,7 @@ func runLabelList(ctx context.Context, state *state, args []string) int {
 }
 
 func runLabelGet(ctx context.Context, state *state, args []string) int {
-	fs := flag.NewFlagSet("todoist label get", flag.ContinueOnError)
+	fs := flag.NewFlagSet("todi label get", flag.ContinueOnError)
 	fs.SetOutput(io.Discard)
 	var help bool
 	var forceID bool
@@ -150,7 +150,7 @@ func runLabelGet(ctx context.Context, state *state, args []string) int {
 }
 
 func runLabelAdd(ctx context.Context, state *state, args []string) int {
-	fs := flag.NewFlagSet("todoist label add", flag.ContinueOnError)
+	fs := flag.NewFlagSet("todi label add", flag.ContinueOnError)
 	fs.SetOutput(io.Discard)
 	var help bool
 	var color string
@@ -207,7 +207,7 @@ func runLabelAdd(ctx context.Context, state *state, args []string) int {
 }
 
 func runLabelUpdate(ctx context.Context, state *state, args []string) int {
-	fs := flag.NewFlagSet("todoist label update", flag.ContinueOnError)
+	fs := flag.NewFlagSet("todi label update", flag.ContinueOnError)
 	fs.SetOutput(io.Discard)
 	var help bool
 	var forceID bool
@@ -294,7 +294,7 @@ func runLabelUpdate(ctx context.Context, state *state, args []string) int {
 }
 
 func runLabelDelete(ctx context.Context, state *state, args []string) int {
-	fs := flag.NewFlagSet("todoist label delete", flag.ContinueOnError)
+	fs := flag.NewFlagSet("todi label delete", flag.ContinueOnError)
 	fs.SetOutput(io.Discard)
 	var help bool
 	var forceID bool
@@ -351,14 +351,14 @@ func runLabelDelete(ctx context.Context, state *state, args []string) int {
 	return 0
 }
 
-func resolveLabel(ctx context.Context, client *todoist.Client, identifier string, forceID bool) (todoist.Label, error) {
+func resolveLabel(ctx context.Context, client *todi.Client, identifier string, forceID bool) (todi.Label, error) {
 	if forceID {
 		return client.GetLabel(ctx, identifier)
 	}
 	return client.FindLabelByName(ctx, identifier)
 }
 
-func resolveLabelIDFromIdentifier(ctx context.Context, client *todoist.Client, identifier string, forceID bool) (string, error) {
+func resolveLabelIDFromIdentifier(ctx context.Context, client *todi.Client, identifier string, forceID bool) (string, error) {
 	if forceID {
 		return identifier, nil
 	}

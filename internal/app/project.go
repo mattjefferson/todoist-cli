@@ -8,7 +8,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/mattjefferson/todoist-cli/internal/todoist"
+	"github.com/mattjefferson/todi/internal/todi"
 )
 
 func runProject(ctx context.Context, state *state, args []string) int {
@@ -38,7 +38,7 @@ func runProject(ctx context.Context, state *state, args []string) int {
 }
 
 func runProjectList(ctx context.Context, state *state, args []string) int {
-	fs := flag.NewFlagSet("todoist project list", flag.ContinueOnError)
+	fs := flag.NewFlagSet("todi project list", flag.ContinueOnError)
 	fs.SetOutput(io.Discard)
 	var help bool
 	var limit int
@@ -110,7 +110,7 @@ func runProjectList(ctx context.Context, state *state, args []string) int {
 }
 
 func runProjectGet(ctx context.Context, state *state, args []string) int {
-	fs := flag.NewFlagSet("todoist project get", flag.ContinueOnError)
+	fs := flag.NewFlagSet("todi project get", flag.ContinueOnError)
 	fs.SetOutput(io.Discard)
 	var help bool
 	var forceID bool
@@ -150,7 +150,7 @@ func runProjectGet(ctx context.Context, state *state, args []string) int {
 }
 
 func runProjectAdd(ctx context.Context, state *state, args []string) int {
-	fs := flag.NewFlagSet("todoist project add", flag.ContinueOnError)
+	fs := flag.NewFlagSet("todi project add", flag.ContinueOnError)
 	fs.SetOutput(io.Discard)
 	var help bool
 	var parentName string
@@ -232,7 +232,7 @@ func runProjectAdd(ctx context.Context, state *state, args []string) int {
 }
 
 func runProjectUpdate(ctx context.Context, state *state, args []string) int {
-	fs := flag.NewFlagSet("todoist project update", flag.ContinueOnError)
+	fs := flag.NewFlagSet("todi project update", flag.ContinueOnError)
 	fs.SetOutput(io.Discard)
 	var help bool
 	var forceID bool
@@ -331,7 +331,7 @@ func runProjectUpdate(ctx context.Context, state *state, args []string) int {
 }
 
 func runProjectDelete(ctx context.Context, state *state, args []string) int {
-	fs := flag.NewFlagSet("todoist project delete", flag.ContinueOnError)
+	fs := flag.NewFlagSet("todi project delete", flag.ContinueOnError)
 	fs.SetOutput(io.Discard)
 	var help bool
 	var forceID bool
@@ -388,21 +388,21 @@ func runProjectDelete(ctx context.Context, state *state, args []string) int {
 	return 0
 }
 
-func resolveProject(ctx context.Context, client *todoist.Client, identifier string, forceID bool) (todoist.Project, error) {
+func resolveProject(ctx context.Context, client *todi.Client, identifier string, forceID bool) (todi.Project, error) {
 	if forceID {
 		return client.GetProject(ctx, identifier)
 	}
 	return client.FindProjectByName(ctx, identifier)
 }
 
-func resolveProjectIDFromIdentifier(ctx context.Context, client *todoist.Client, identifier string, forceID bool) (string, error) {
+func resolveProjectIDFromIdentifier(ctx context.Context, client *todi.Client, identifier string, forceID bool) (string, error) {
 	if forceID {
 		return identifier, nil
 	}
 	return client.FindProjectIDByName(ctx, identifier)
 }
 
-func resolveParentProjectID(ctx context.Context, client *todoist.Client, parentName, parentID string) (string, error) {
+func resolveParentProjectID(ctx context.Context, client *todi.Client, parentName, parentID string) (string, error) {
 	if parentName != "" && parentID != "" {
 		return "", fmt.Errorf("cannot use --parent and --parent-id together")
 	}

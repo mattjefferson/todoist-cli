@@ -1,3 +1,3 @@
-module github.com/mattjefferson/todoist-cli
+module github.com/mattjefferson/todi
 
 go 1.22

@@ -6,8 +6,6 @@ import (
 	"io"
 	"strconv"
 	"strings"
-
-	"github.com/mattjefferson/todoist-cli/internal/todoist"
 )
 
 func runActivity(ctx context.Context, state *state, args []string) int {
@@ -29,7 +27,7 @@ func runActivity(ctx context.Context, state *state, args []string) int {
 }
 
 func runActivityList(ctx context.Context, state *state, args []string) int {
-	fs := flag.NewFlagSet("todoist activity list", flag.ContinueOnError)
+	fs := flag.NewFlagSet("todi activity list", flag.ContinueOnError)
 	fs.SetOutput(io.Discard)
 	var help bool
 	var limit int

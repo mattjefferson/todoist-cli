@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 )
 
-// Config stores Todoist CLI configuration values.
+// Config stores CLI configuration values.
 type Config struct {
 	Token    string `json:"token,omitempty"`
 	APIBase  string `json:"api_base,omitempty"`
@@ -24,7 +24,7 @@ func DefaultPath() (string, error) {
 	if err != nil {
 		return "", fmt.Errorf("config dir: %w", err)
 	}
-	return filepath.Join(dir, "todoist-cli", "config.json"), nil
+	return filepath.Join(dir, "todi", "config.json"), nil
 }
 
 // Load reads config values from the provided path.

@@ -1,4 +1,4 @@
-package todoist
+package todi
 
 import (
 	"fmt"

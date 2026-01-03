@@ -7,7 +7,7 @@ import (
 	"strings"
 	"text/tabwriter"
 
-	"github.com/mattjefferson/todoist-cli/internal/todoist"
+	"github.com/mattjefferson/todi/internal/todi"
 )
 
 type outputMode int
@@ -18,7 +18,7 @@ const (
 	modePlain
 )
 
-func printTasks(out io.Writer, tasks []todoist.Task, mode outputMode) error {
+func printTasks(out io.Writer, tasks []todi.Task, mode outputMode) error {
 	switch mode {
 	case modeJSON:
 		payload := map[string]any{"results": tasks}
@@ -44,7 +44,7 @@ func printTasks(out io.Writer, tasks []todoist.Task, mode outputMode) error {
 	}
 }
 
-func printActivities(out io.Writer, activities []todoist.Activity, mode outputMode) error {
+func printActivities(out io.Writer, activities []todi.Activity, mode outputMode) error {
 	switch mode {
 	case modeJSON:
 		payload := map[string]any{"results": activities}
@@ -82,7 +82,7 @@ func printActivities(out io.Writer, activities []todoist.Activity, mode outputMo
 	}
 }
 
-func printProjects(out io.Writer, projects []todoist.Project, mode outputMode) error {
+func printProjects(out io.Writer, projects []todi.Project, mode outputMode) error {
 	switch mode {
 	case modeJSON:
 		payload := map[string]any{"results": projects}
@@ -108,7 +108,7 @@ func printProjects(out io.Writer, projects []todoist.Project, mode outputMode) e
 	}
 }
 
-func printUser(out io.Writer, user todoist.User, mode outputMode) error {
+func printUser(out io.Writer, user todi.User, mode outputMode) error {
 	switch mode {
 	case modeJSON:
 		return printJSON(out, user)
@@ -121,7 +121,7 @@ func printUser(out io.Writer, user todoist.User, mode outputMode) error {
 	}
 }
 
-func printSections(out io.Writer, sections []todoist.Section, mode outputMode) error {
+func printSections(out io.Writer, sections []todi.Section, mode outputMode) error {
 	switch mode {
 	case modeJSON:
 		payload := map[string]any{"results": sections}
@@ -147,7 +147,7 @@ func printSections(out io.Writer, sections []todoist.Section, mode outputMode) e
 	}
 }
 
-func printLabels(out io.Writer, labels []todoist.Label, mode outputMode) error {
+func printLabels(out io.Writer, labels []todi.Label, mode outputMode) error {
 	switch mode {
 	case modeJSON:
 		payload := map[string]any{"results": labels}
@@ -173,7 +173,7 @@ func printLabels(out io.Writer, labels []todoist.Label, mode outputMode) error {
 	}
 }
 
-func printComments(out io.Writer, comments []todoist.Comment, mode outputMode) error {
+func printComments(out io.Writer, comments []todi.Comment, mode outputMode) error {
 	switch mode {
 	case modeJSON:
 		payload := map[string]any{"results": comments}
@@ -199,7 +199,7 @@ func printComments(out io.Writer, comments []todoist.Comment, mode outputMode) e
 	}
 }
 
-func printTask(out io.Writer, task todoist.Task, mode outputMode) error {
+func printTask(out io.Writer, task todi.Task, mode outputMode) error {
 	switch mode {
 	case modeJSON:
 		return printJSON(out, task)
@@ -212,7 +212,7 @@ func printTask(out io.Writer, task todoist.Task, mode outputMode) error {
 	}
 }
 
-func printProject(out io.Writer, project todoist.Project, mode outputMode) error {
+func printProject(out io.Writer, project todi.Project, mode outputMode) error {
 	switch mode {
 	case modeJSON:
 		return printJSON(out, project)
@@ -225,7 +225,7 @@ func printProject(out io.Writer, project todoist.Project, mode outputMode) error
 	}
 }
 
-func printSection(out io.Writer, section todoist.Section, mode outputMode) error {
+func printSection(out io.Writer, section todi.Section, mode outputMode) error {
 	switch mode {
 	case modeJSON:
 		return printJSON(out, section)
@@ -238,7 +238,7 @@ func printSection(out io.Writer, section todoist.Section, mode outputMode) error
 	}
 }
 
-func printLabel(out io.Writer, label todoist.Label, mode outputMode) error {
+func printLabel(out io.Writer, label todi.Label, mode outputMode) error {
 	switch mode {
 	case modeJSON:
 		return printJSON(out, label)
@@ -251,7 +251,7 @@ func printLabel(out io.Writer, label todoist.Label, mode outputMode) error {
 	}
 }
 
-func printUpload(out io.Writer, upload todoist.Upload, mode outputMode) error {
+func printUpload(out io.Writer, upload todi.Upload, mode outputMode) error {
 	switch mode {
 	case modeJSON:
 		return printJSON(out, upload)
@@ -264,7 +264,7 @@ func printUpload(out io.Writer, upload todoist.Upload, mode outputMode) error {
 	}
 }
 
-func printComment(out io.Writer, comment todoist.Comment, mode outputMode) error {
+func printComment(out io.Writer, comment todi.Comment, mode outputMode) error {
 	switch mode {
 	case modeJSON:
 		return printJSON(out, comment)
@@ -296,7 +296,7 @@ func printRawJSON(out io.Writer, raw []byte) error {
 	return err
 }
 
-func dueSummary(task todoist.Task) string {
+func dueSummary(task todi.Task) string {
 	if task.Due == nil {
 		return ""
 	}

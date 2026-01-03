@@ -1,4 +1,4 @@
-package todoist
+package todi
 
 // Task represents a Todoist task.
 type Task struct {

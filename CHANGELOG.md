@@ -14,4 +14,4 @@
 - Added initial Todoist CLI with task commands: list/get/add/update/close/reopen/delete/quick.
 - Added auth commands (login/logout/status) and config commands (get/set/view/path).
 - Added output modes (JSON/plain), quiet/verbose flags, no-input/no-color options, and optional cli label.
-- Added version stamping support for `todoist --version` via Go ldflags.
+- Added version stamping support for `todi --version` via Go ldflags.

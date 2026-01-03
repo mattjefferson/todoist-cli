@@ -9,8 +9,8 @@ import (
 	"os"
 	"strings"
 
-	"github.com/mattjefferson/todoist-cli/internal/config"
-	"github.com/mattjefferson/todoist-cli/internal/todoist"
+	"github.com/mattjefferson/todi/internal/config"
+	"github.com/mattjefferson/todi/internal/todi"
 )
 
 const defaultAPIBase = "https://api.todoist.com"
@@ -148,17 +148,17 @@ type state struct {
 	LabelCLI   bool
 }
 
-func (s *state) client() (*todoist.Client, error) {
+func (s *state) client() (*todi.Client, error) {
 	token := firstNonEmpty(os.Getenv("TODOIST_TOKEN"), s.Config.Token)
 	if token == "" {
-		return nil, errors.New("missing Todoist token: run 'todoist auth login' or set TODOIST_TOKEN")
+		return nil, errors.New("missing Todoist token: run 'todi auth login' or set TODOIST_TOKEN")
 	}
-	client := todoist.NewClient(s.Config.APIBase, token, s.Verbose)
+	client := todi.NewClient(s.Config.APIBase, token, s.Verbose)
 	return client, nil
 }
 
 func parseGlobal(args []string, errOut io.Writer) (globalFlags, []string, int) {
-	fs := flag.NewFlagSet("todoist", flag.ContinueOnError)
+	fs := flag.NewFlagSet("todi", flag.ContinueOnError)
 	fs.SetOutput(io.Discard)
 
 	var flags globalFlags

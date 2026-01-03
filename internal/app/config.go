@@ -39,7 +39,7 @@ func runConfig(_ context.Context, state *state, args []string) int {
 }
 
 func runConfigGet(state *state, args []string) int {
-	fs := flag.NewFlagSet("todoist config get", flag.ContinueOnError)
+	fs := flag.NewFlagSet("todi config get", flag.ContinueOnError)
 	fs.SetOutput(io.Discard)
 	var help bool
 	fs.BoolVar(&help, "help", false, "Show help")
@@ -98,7 +98,7 @@ func runConfigGet(state *state, args []string) int {
 }
 
 func runConfigSet(state *state, args []string) int {
-	fs := flag.NewFlagSet("todoist config set", flag.ContinueOnError)
+	fs := flag.NewFlagSet("todi config set", flag.ContinueOnError)
 	fs.SetOutput(io.Discard)
 	var help bool
 	fs.BoolVar(&help, "help", false, "Show help")
@@ -122,7 +122,7 @@ func runConfigSet(state *state, args []string) int {
 	key := strings.ToLower(fs.Args()[0])
 	value := strings.Join(fs.Args()[1:], " ")
 	if key == "token" {
-		if _, err := fmt.Fprintln(state.Err, "error: set token via 'todoist auth login'"); err != nil {
+		if _, err := fmt.Fprintln(state.Err, "error: set token via 'todi auth login'"); err != nil {
 			return 2
 		}
 		return 2
