@@ -25,6 +25,10 @@ func runProject(ctx context.Context, state *state, args []string) int {
 		return runProjectAdd(ctx, state, args[1:])
 	case "update":
 		return runProjectUpdate(ctx, state, args[1:])
+	case "archive":
+		return runProjectArchive(ctx, state, args[1:])
+	case "unarchive":
+		return runProjectUnarchive(ctx, state, args[1:])
 	case "delete":
 		return runProjectDelete(ctx, state, args[1:])
 	case "-h", "--help", "help":
@@ -386,6 +390,92 @@ func runProjectDelete(ctx context.Context, state *state, args []string) int {
 		return 1
 	}
 	return 0
+}
+
+func runProjectArchive(ctx context.Context, state *state, args []string) int {
+	id, raw, code := projectAction(ctx, state, "archive", args)
+	if code != 0 {
+		return code
+	}
+	if state.Mode == modeJSON {
+		if err := printRawJSON(state.Out, raw); err != nil {
+			writeLine(state.Err, "error:", err)
+			return 1
+		}
+		return 0
+	}
+	if _, err := fmt.Fprintf(state.Out, "archived %s\n", id); err != nil {
+		return 1
+	}
+	return 0
+}
+
+func runProjectUnarchive(ctx context.Context, state *state, args []string) int {
+	id, raw, code := projectAction(ctx, state, "unarchive", args)
+	if code != 0 {
+		return code
+	}
+	if state.Mode == modeJSON {
+		if err := printRawJSON(state.Out, raw); err != nil {
+			writeLine(state.Err, "error:", err)
+			return 1
+		}
+		return 0
+	}
+	if _, err := fmt.Fprintf(state.Out, "unarchived %s\n", id); err != nil {
+		return 1
+	}
+	return 0
+}
+
+func projectAction(ctx context.Context, state *state, action string, args []string) (string, []byte, int) {
+	fs := flag.NewFlagSet("todi project "+action, flag.ContinueOnError)
+	fs.SetOutput(io.Discard)
+	var help bool
+	var forceID bool
+	fs.BoolVar(&help, "help", false, "Show help")
+	fs.BoolVar(&help, "h", false, "Show help")
+	fs.BoolVar(&forceID, "id", false, "Treat argument as project ID")
+	if err := fs.Parse(args); err != nil {
+		writeLine(state.Err, "error:", err)
+		return "", nil, 2
+	}
+	if help {
+		printProjectUsage(state.Out)
+		return "", nil, 0
+	}
+	identifier := strings.TrimSpace(strings.Join(fs.Args(), " "))
+	if identifier == "" {
+		writeLine(state.Err, "error: project identifier required")
+		return "", nil, 2
+	}
+
+	client, err := state.client()
+	if err != nil {
+		writeLine(state.Err, "error:", err)
+		return "", nil, 1
+	}
+
+	projectID, err := resolveProjectIDFromIdentifier(ctx, client, identifier, forceID)
+	if err != nil {
+		writeLine(state.Err, "error:", err)
+		return "", nil, 1
+	}
+
+	var raw []byte
+	switch action {
+	case "archive":
+		raw, err = client.ArchiveProject(ctx, projectID)
+	case "unarchive":
+		raw, err = client.UnarchiveProject(ctx, projectID)
+	default:
+		return "", nil, 2
+	}
+	if err != nil {
+		writeLine(state.Err, "error:", err)
+		return "", nil, 1
+	}
+	return projectID, raw, 0
 }
 
 func resolveProject(ctx context.Context, client *todi.Client, identifier string, forceID bool) (todi.Project, error) {

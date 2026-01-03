@@ -93,6 +93,10 @@ Subcommands:
   - Flags: `--parent`, `--parent-id`, `--color`, `--favorite`, `--view`
 - `update <project>`
   - Flags: `--id`, `--name`, `--color`, `--favorite`, `--unfavorite`, `--view`
+- `archive <project>`
+  - Flags: `--id`
+- `unarchive <project>`
+  - Flags: `--id`
 - `delete <project>`
   - Flags: `--id`, `--force`
 
@@ -100,6 +104,7 @@ Examples:
 - `todi project list --all`
 - `todi project add "Docs" --favorite`
 - `todi project update "Docs" --view board`
+- `todi project archive "Docs"`
 
 ### section
 Manage sections.

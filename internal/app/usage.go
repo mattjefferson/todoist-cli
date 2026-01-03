@@ -350,6 +350,8 @@ USAGE:
   todi project get <project>
   todi project add <name>
   todi project update <project>
+  todi project archive <project>
+  todi project unarchive <project>
   todi project delete <project>
 
 FLAGS (list):
@@ -357,7 +359,7 @@ FLAGS (list):
   --cursor <cursor>        Pagination cursor
   --all                    Fetch all pages
 
-FLAGS (get/update/delete):
+FLAGS (get/update/archive/unarchive/delete):
   --id                     Treat argument as project ID
 
 FLAGS (add):
@@ -381,6 +383,7 @@ EXAMPLES:
   todi project list --all
   todi project add "Docs" --favorite
   todi project update "Docs" --view board
+  todi project archive "Docs"
 
 NOTES:
   <project> accepts exact project title unless --id is set.

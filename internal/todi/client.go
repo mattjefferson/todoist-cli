@@ -470,6 +470,16 @@ func (c *Client) DeleteProject(ctx context.Context, id string) ([]byte, error) {
 	return c.delete(ctx, "/api/v1/projects/"+url.PathEscape(id))
 }
 
+// ArchiveProject archives a project by ID.
+func (c *Client) ArchiveProject(ctx context.Context, id string) ([]byte, error) {
+	return c.post(ctx, "/api/v1/projects/"+url.PathEscape(id)+"/archive", nil, nil)
+}
+
+// UnarchiveProject unarchives a project by ID.
+func (c *Client) UnarchiveProject(ctx context.Context, id string) ([]byte, error) {
+	return c.post(ctx, "/api/v1/projects/"+url.PathEscape(id)+"/unarchive", nil, nil)
+}
+
 // FindProjectByName returns the project for a unique name match.
 func (c *Client) FindProjectByName(ctx context.Context, name string) (Project, error) {
 	projects, err := c.ListProjectsAll(ctx)
